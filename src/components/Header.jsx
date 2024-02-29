@@ -52,8 +52,11 @@ function Header() {
             backgroundColor: '#fff',
             color: '#9B1FE9',
             boxShadow: 'none',
+            px: { lg: 8 }
         }}>
-            <Container maxWidth="xl">
+            <Container maxWidth="xl"
+                sx={{ px: 0 }}
+            >
                 <Toolbar disableGutters>
 
                     <Typography
