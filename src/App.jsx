@@ -20,7 +20,7 @@ const App = () => {
       </Box>
 
       {/* Body */}
-      <Box sx={{ bgcolor: "#EEF2FE", minHeight: '80vh' }}>
+      <Box sx={{ bgcolor: "#EEF2FE", minHeight: '80vh', p: 2 }}>
 
         <Box sx={{ py: 4, mx: 10 }}>
           <Typography variant="h2" sx={{ fontWeight: 500, mb: 1, color: "#9B1FE9" }} >Request testnet LINK</Typography>
