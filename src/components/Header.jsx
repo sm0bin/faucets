@@ -132,7 +132,7 @@ function Header() {
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', justifyContent: 'flex-end' } }}>
 
-                        <FormControl sx={{ m: 1, minWidth: 120 }}>
+                        <FormControl sx={{ m: 2, minWidth: 120 }}>
                             <Select
                                 value={age}
                                 onChange={handleChange}
@@ -150,8 +150,7 @@ function Header() {
                             {/* <FormHelperText>Without label</FormHelperText> */}
                         </FormControl>
 
-                        <Button variant="outlined" sx={{ m: 1, color: 'inherit' }}>
-                            <WalletOutlinedIcon sx={{ mr: 1, color: 'inherit' }} />
+                        <Button variant="outlined" size="small" sx={{ my: 2, color: 'inherit' }} startIcon={<WalletOutlinedIcon />}>
                             Connect Wallet
                         </Button>
                         {/* {pages.map((page) => (
