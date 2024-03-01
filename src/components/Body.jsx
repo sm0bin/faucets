@@ -1,6 +1,7 @@
 import { Box, Button, FormControl, Grid, TextField, Typography } from '@mui/material';
 import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 import ReCAPTCHA from "react-google-recaptcha";
+import TabSection from './TabSection';
 
 const Body = () => {
     function onChange(value) {
@@ -47,6 +48,8 @@ const Body = () => {
                 </Grid>
             </FormControl>
 
+
+            <TabSection />
         </Box>
     );
 };
