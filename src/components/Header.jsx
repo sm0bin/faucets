@@ -25,6 +25,7 @@ import WalletConnect from '../assets/WalletConnect.png';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import DialogActions from '@mui/material/DialogActions';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 // const pages = ['Products', 'Pricing', 'Blog'];
@@ -43,7 +44,24 @@ function Header() {
     const [chain, setChain] = React.useState('');
     const settingsLoggedIn = ['Profile', 'Account', 'Dashboard', 'Logout'];
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const settingsLoggedOut = ['Log In', 'Sign Up', 'FAQ'];
+    const navigate = useNavigate();
+    const settingsLoggedOut = [
+        {
+            id: 1,
+            name: 'Log In',
+            link: '/login'
+        },
+        {
+            id: 2,
+            name: 'Sign Up',
+            link: '/signup'
+        },
+        {
+            id: 3,
+            name: 'FAQ',
+            link: '/faq'
+        }
+    ];
     const [open, setOpen] = React.useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -115,7 +133,8 @@ function Header() {
         setAnchorElNav(null);
     };
 
-    const handleCloseUserMenu = () => {
+    const handleCloseUserMenu = (link) => {
+        navigate(link);
         setAnchorElUser(null);
     };
 
@@ -146,7 +165,7 @@ function Header() {
                             textDecoration: 'none',
                         }}
                     >
-                        Faucets
+                        <Link to='/'>Faucets</Link>
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -200,7 +219,7 @@ function Header() {
                             textDecoration: 'none',
                         }}
                     >
-                        Faucets
+                        <Link to='/'>Faucets</Link>
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', justifyContent: 'flex-end' } }}>
 
@@ -263,8 +282,8 @@ function Header() {
                             onClose={handleCloseUserMenu}
                         >
                             {settingsLoggedOut.map((setting) => (
-                                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                    <Typography textAlign="center">{setting}</Typography>
+                                <MenuItem key={setting.id} onClick={() => handleCloseUserMenu(setting.link)}>
+                                    <Typography textAlign="center">{setting.name}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
