@@ -5,6 +5,7 @@ import { Box, Container, Typography } from '@mui/material';
 import Footer from './components/Footer';
 import Body from './components/Body';
 
+
 const App = () => {
   return (
     <>

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,29 +7,101 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import WalletOutlinedIcon from '@mui/icons-material/WalletOutlined';
-import { FormControl } from '@mui/material';
+import { FormControl, Grid } from '@mui/material';
 import { Select } from '@mui/material';
-import { FormHelperText } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
+import MetaMask from '../assets/MetaMask.png';
+import WalletConnect from '../assets/WalletConnect.png';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import DialogActions from '@mui/material/DialogActions';
 
 
 // const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-const user = ['Log In', 'Sign Up', 'FAQ'];
+// Arbitrum Rinkeby
+// Avalanche Fuji
+// BNB Chain Testnet
+// Ethereum Rinkeby
+// Fantom Testnet
+// Harmony Testnet
+// POA Network Sokol
+// Polygon Mumbai
+
 
 function Header() {
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
+    // const [anchorElNav, setAnchorElNav] = useState(null);
+    const [chain, setChain] = React.useState('');
+    const settingsLoggedIn = ['Profile', 'Account', 'Dashboard', 'Logout'];
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const [age, setAge] = React.useState('');
+    const settingsLoggedOut = ['Log In', 'Sign Up', 'FAQ'];
+    const [open, setOpen] = React.useState(false);
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+    const chains = [
+        {
+            id: 1,
+            icon: '🏀',
+            name: 'Arbitrum Rinkeby'
+        },
+        {
+            id: 2,
+            icon: '🏈',
+            name: 'Avalanche Fuji'
+        },
+        {
+            id: 3,
+            icon: '🎾',
+            name: 'BNB Chain Testnet'
+        },
+        {
+            id: 4,
+            icon: '🏐',
+            name: 'Ethereum Rinkeby'
+        },
+        {
+            id: 5,
+            icon: '🏉',
+            name: 'Fantom Testnet'
+        },
+        {
+            id: 6,
+            icon: '🏓',
+            name: 'Harmony Testnet'
+        },
+        {
+            id: 7,
+            icon: '🏒',
+            name: 'POA Network Sokol'
+        },
+        {
+            id: 8,
+            icon: '🏑',
+            name: 'Polygon Mumbai'
+        },
+
+    ]
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const handleChange = (event) => {
-        setAge(event.target.value);
+        setChain(event.target.value);
     };
 
     const handleOpenNavMenu = (event) => {
@@ -134,23 +206,24 @@ function Header() {
 
                         <FormControl sx={{ m: 2, minWidth: 120 }}>
                             <Select
-                                value={age}
+                                value={chain}
                                 onChange={handleChange}
                                 displayEmpty
                                 inputProps={{ 'aria-label': 'Without label' }}
                                 sx={{ color: '#9B1FE9' }}
                             >
-                                <MenuItem value="">
-                                    zero
+                                <MenuItem value="" hidden>
+                                    🏀 Arbitrum Rinkeby
                                 </MenuItem>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+
+                                {chains.map((coin) => (
+                                    <MenuItem key={coin.id} value={coin.id}>{coin.icon}{` ${coin.name}`}</MenuItem>
+                                ))}
                             </Select>
                             {/* <FormHelperText>Without label</FormHelperText> */}
                         </FormControl>
 
-                        <Button variant="outlined" size="small" sx={{ my: 2, color: 'inherit' }} startIcon={<WalletOutlinedIcon />}>
+                        <Button onClick={handleClickOpen} variant="outlined" size="small" sx={{ my: 2, color: 'inherit' }} startIcon={<WalletOutlinedIcon />}>
                             Connect Wallet
                         </Button>
                         {/* {pages.map((page) => (
@@ -164,9 +237,11 @@ function Header() {
                         ))} */}
                     </Box>
 
-                    <Box sx={{ flexGrow: 0 }}>
+                    <Box sx={{
+                        flexGrow: 0, my: 2
+                    }}>
                         <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 2 }}>
                                 {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
                                 <AccountCircleOutlinedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: 'inherit' }} />
                             </IconButton>
@@ -187,7 +262,7 @@ function Header() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting) => (
+                            {settingsLoggedOut.map((setting) => (
                                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                                     <Typography textAlign="center">{setting}</Typography>
                                 </MenuItem>
@@ -196,6 +271,52 @@ function Header() {
                     </Box>
                 </Toolbar>
             </Container>
+
+            {/* Dialog tab */}
+            <Dialog
+                fullScreen={fullScreen}
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="responsive-dialog-title"
+            >
+                <DialogTitle id="responsive-dialog-title">
+                    {"Connect your wallet"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        <Grid container spacing={2}>
+                            <Grid item xs={6}>
+                                <Box sx={{ bgcolor: '#F5F7FD' }}>
+                                    <img src={MetaMask} className='w-50 mx-auto d-block' />
+                                    {/* <Box src={MetaMask} sx={{ width: '100%' }} /> */}
+                                    <Typography sx={{ fontWeight: 'bold', textAlign: 'center', color: '#9B1FE9', fontSize: 20 }}> MetaMask</Typography>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Box sx={{ bgcolor: '#F5F7FD' }}>
+                                    <img src={WalletConnect} className='w-50 mx-auto d-block' />
+                                    {/* <Box src={MetaMask} sx={{ width: '100%' }} /> */}
+                                    <Typography sx={{ fontWeight: 'bold', textAlign: 'center', color: '#9B1FE9', fontSize: 20 }}> MetaMask</Typography>
+                                </Box>
+                                {/* <Button>
+                                    <img src={WalletConnect} className='w-100' />
+                                </Button> */}
+                            </Grid>
+                        </Grid>
+
+                        {/* <Box sx={{ display: 'grid', gap: 2 }}>
+                        </Box> */}
+                    </DialogContentText>
+                </DialogContent>
+                {/* <DialogActions>
+                    <Button autoFocus onClick={handleClose}>
+                        Disagree
+                    </Button>
+                    <Button onClick={handleClose} autoFocus>
+                        Agree
+                    </Button>
+                </DialogActions> */}
+            </Dialog>
         </AppBar>
     );
 }

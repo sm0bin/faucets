@@ -18,7 +18,9 @@ function CustomTabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box sx={{
+                    mt: 3
+                }}>
                     <Typography>{children}</Typography>
                 </Box>
             )}
@@ -47,18 +49,13 @@ export default function TabSection() {
     };
 
     return (
-        <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', }}>
-                <Tabs value={value} TabIndicatorProps={{
-                    sx: {
-                        bgcolor: '#0000FF',
-                        border: 0,
-                    },
-                }}
+        <Box sx={{ width: '100%', mt: 5 }}>
+            <Box sx={{}}>
+                <Tabs value={value}
                     sx={{ '& button.Mui-selected': { bgcolor: '#0000FF', color: "#fff" } }}
                     onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="Item One" {...a11yProps(0)} />
-                    <Tab label="Item Two" {...a11yProps(1)} />
+                    <Tab label="ETH Transaction History" {...a11yProps(0)} />
+                    <Tab label="TestLink Transaction History" {...a11yProps(1)} />
                 </Tabs>
             </Box>
             <CustomTabPanel value={value} index={0}>
