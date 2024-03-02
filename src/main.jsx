@@ -18,6 +18,7 @@ import {
 } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
 import AuthProvider from "./provider/AuthProvider";
+import Dashboard from "./pages/Dashboard";
 const queryClient = new QueryClient();
 
 const theme = createTheme({
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/faq",
         element: <Faq />
+      },
+      {
+        path: '/dashboard',
+        element: <Dashboard />
       }
     ],
   },

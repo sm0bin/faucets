@@ -42,17 +42,17 @@ import useLoadDataSecure from '../hooks/useLoadDataSecure';
 
 
 function Header() {
-    const { logout } = useAuth();
-    // const [user] = useUser();
-    const [data] = useLoadDataSecure('/users/me', 'User');
-    console.log(data);
-    const user = data ? data : null;
-    // const [anchorElNav, setAnchorElNav] = useState(null);
     const [chain, setChain] = React.useState('');
-    // const settingsLoggedIn = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const navigate = useNavigate();
+    const { logout } = useAuth();
+    const [data, , isPendingUser] = useLoadDataSecure('/users/me', 'User');
+    const user = data ? data : null;
+    // if (isPendingUser) return <div>Loading...</div>
+    // const [user] = useUser();
+    // const [anchorElNav, setAnchorElNav] = useState(null);
+    // const settingsLoggedIn = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
     const settingsLoggedOut = [
         {
             id: 1,
@@ -299,20 +299,20 @@ function Header() {
                                     //         <Typography textAlign="center">{setting.name}</Typography>
                                     //     </MenuItem>
                                     // ))
-                                    <>
-                                        <MenuItem onClick={() => navigate('/dashboard')}>
-                                            <Typography textAlign="center">Dashboard</Typography>
-                                        </MenuItem>
-                                        <MenuItem onClick={logout}>
-                                            <Typography textAlign="center">Logout</Typography>
-                                        </MenuItem>
-                                    </>
+                                    <MenuItem onClick={() => navigate('/dashboard')}>
+                                        <Typography textAlign="center">Dashboard</Typography>
+                                    </MenuItem>
                                     :
                                     settingsLoggedOut.map((setting) => (
                                         <MenuItem key={setting.id} onClick={() => handleCloseUserMenu(setting.link)}>
                                             <Typography textAlign="center">{setting.name}</Typography>
                                         </MenuItem>
                                     ))}
+                            {
+                                user && <MenuItem onClick={logout}>
+                                    <Typography textAlign="center">Logout</Typography>
+                                </MenuItem>
+                            }
                         </Menu>
                     </Box>
                 </Toolbar>
