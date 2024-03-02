@@ -172,6 +172,7 @@ function Header() {
                             fontFamily: 'sans-serif',
                             fontWeight: 700,
                             color: 'inherit',
+                            fontSize: 24,
                             textDecoration: 'none',
                         }}
                     >

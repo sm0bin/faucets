@@ -6,18 +6,21 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import useLoadDataSecure from '../hooks/useLoadDataSecure';
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-    createData(1, 159, 6.0, 24),
-    createData(2, 237, 9.0, 37),
-    createData(3, 262, 16.0, 24),
-];
 
 export default function TableSection() {
+    const [transactions, isPending, refetch, isError] = useLoadDataSecure('/transactions/all', 'all transactions');
+    if (isPending) {
+        return (
+            <div>Loading...</div>
+        )
+    }
+    if (isError) {
+        return (
+            <div>Error fetching data</div>
+        )
+    }
     return (
         <TableContainer component={Paper} sx={{ width: 1 / 3, borderRadius: 0, boxShadow: 0, border: '#555' }}>
             <Table size="small" aria-label="a dense table">
@@ -31,19 +34,19 @@ export default function TableSection() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <TableRow
-                            key={row.name}
-                            sx={{ '&:last-child td, &:last-child th': { border: 1 } }}
-                        >
-                            <TableCell sx={{ border: 1 }} align='center' component="th" scope="row">
-                                {row.name}
-                            </TableCell>
-                            <TableCell sx={{ border: 1 }} align="center">{row.calories}</TableCell>
-                            <TableCell sx={{ border: 1 }} align="center">{row.fat}</TableCell>
-                            <TableCell sx={{ border: 1 }} align="center">{row.carbs}</TableCell>
-                        </TableRow>
-                    ))}
+                    {
+                        transactions.map((transaction, index) => (
+                            <TableRow
+                                key={transaction._id}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell sx={{ border: 1 }} align='center'>{index + 1}</TableCell>
+                                <TableCell sx={{ border: 1 }} align='center'>{transaction.time}</TableCell>
+                                <TableCell sx={{ border: 1 }} align="center">{transaction.amount}</TableCell>
+                                <TableCell sx={{ border: 1 }} align="center">{transaction.hash}</TableCell>
+                            </TableRow>
+                        ))
+                    }
                 </TableBody>
             </Table>
         </TableContainer>
