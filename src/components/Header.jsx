@@ -26,6 +26,8 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import DialogActions from '@mui/material/DialogActions';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../provider/AuthProvider';
+import useLoadDataSecure from '../hooks/useLoadDataSecure';
 
 
 // const pages = ['Products', 'Pricing', 'Blog'];
@@ -40,9 +42,15 @@ import { Link, useNavigate } from 'react-router-dom';
 
 
 function Header() {
+    const { logout } = useAuth();
+    // const [user] = useUser();
+    const [data] = useLoadDataSecure('/users/me', 'User');
+    console.log(data);
+    const user = data ? data : null;
     // const [anchorElNav, setAnchorElNav] = useState(null);
     const [chain, setChain] = React.useState('');
-    const settingsLoggedIn = ['Profile', 'Account', 'Dashboard', 'Logout'];
+    // const settingsLoggedIn = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const navigate = useNavigate();
     const settingsLoggedOut = [
@@ -152,6 +160,7 @@ function Header() {
                 <Toolbar disableGutters>
 
                     <Typography
+                        onClick={() => { navigate('/') }}
                         variant="h6"
                         noWrap
                         component="a"
@@ -166,7 +175,7 @@ function Header() {
                             textDecoration: 'none',
                         }}
                     >
-                        <Link to='/'>Faucets</Link>
+                        Faucets
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -206,6 +215,7 @@ function Header() {
                         </Menu> */}
                     </Box>
                     <Typography
+                        onClick={() => { navigate('/') }}
                         variant="h5"
                         noWrap
                         component="a"
@@ -220,7 +230,7 @@ function Header() {
                             textDecoration: 'none',
                         }}
                     >
-                        <Link to='/'>Faucets</Link>
+                        Faucets
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', justifyContent: 'flex-end' } }}>
 
@@ -282,11 +292,27 @@ function Header() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settingsLoggedOut.map((setting) => (
-                                <MenuItem key={setting.id} onClick={() => handleCloseUserMenu(setting.link)}>
-                                    <Typography textAlign="center">{setting.name}</Typography>
-                                </MenuItem>
-                            ))}
+                            {
+                                user ?
+                                    // settingsLoggedIn.map((setting) => (
+                                    //     <MenuItem key={setting.id} onClick={() => handleCloseUserMenu(setting.link)}>
+                                    //         <Typography textAlign="center">{setting.name}</Typography>
+                                    //     </MenuItem>
+                                    // ))
+                                    <>
+                                        <MenuItem onClick={() => navigate('/dashboard')}>
+                                            <Typography textAlign="center">Dashboard</Typography>
+                                        </MenuItem>
+                                        <MenuItem onClick={logout}>
+                                            <Typography textAlign="center">Logout</Typography>
+                                        </MenuItem>
+                                    </>
+                                    :
+                                    settingsLoggedOut.map((setting) => (
+                                        <MenuItem key={setting.id} onClick={() => handleCloseUserMenu(setting.link)}>
+                                            <Typography textAlign="center">{setting.name}</Typography>
+                                        </MenuItem>
+                                    ))}
                         </Menu>
                     </Box>
                 </Toolbar>

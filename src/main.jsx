@@ -12,6 +12,13 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Faq from "./pages/Faq";
 import Home from "./pages/Home";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query';
+import { Toaster } from 'react-hot-toast';
+import AuthProvider from "./provider/AuthProvider";
+const queryClient = new QueryClient();
 
 const theme = createTheme({
   typography: {
@@ -50,7 +57,12 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <Toaster />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </QueryClientProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
