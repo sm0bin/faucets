@@ -41,7 +41,7 @@ function a11yProps(index) {
     };
 }
 
-export default function TabSection() {
+export default function TabSection({ transactions, isPending, refetch, isError }) {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event, newValue) => {

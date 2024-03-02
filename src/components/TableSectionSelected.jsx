@@ -9,14 +9,13 @@ import Paper from '@mui/material/Paper';
 import useLoadDataSecure from '../hooks/useLoadDataSecure';
 
 
-export default function TableSection() {
+export default function TableSectionSelected() {
     const [transactions, isPending, refetch, isError] = useLoadDataSecure('/transactions/all', 'all transactions');
-    if (!transactions) {
+    if (transactions.length === 0) {
         return (
             <div>Loading...</div>
         )
     }
-
     console.log(transactions, isPending, refetch, isError);
     if (isError) {
         return (
@@ -37,7 +36,7 @@ export default function TableSection() {
                 </TableHead>
                 <TableBody>
                     {transactions.length > 0 &&
-                        transactions?.map((transaction, index) => (
+                        transactions.map((transaction, index) => (
                             <TableRow
                                 key={transaction._id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 1 } }}
