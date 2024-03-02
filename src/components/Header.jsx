@@ -143,7 +143,8 @@ function Header() {
             backgroundColor: '#fff',
             color: '#9B1FE9',
             boxShadow: 'none',
-            px: { lg: 8 }
+            px: { lg: 8 },
+            borderBottom: '1px solid #e0e0e0',
         }}>
             <Container maxWidth="xl"
                 sx={{ px: 0 }}
